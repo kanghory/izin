@@ -37,8 +37,8 @@ clear;clear;clear
 echo -e "${YELLOW}----------------------------------------------------------${NC}"
 echo -e "  Welcome To KLMPK Tunneling ${YELLOW}(${NC}${green} Stable Edition ${NC}${YELLOW})${NC}"
 echo -e " This Will Quick Setup VPN Server On Your Server"
-echo -e "  Auther : ${green}Andyyuda® ${NC}${YELLOW}(${NC} ${green} KLMPK Tunneling ${NC}${YELLOW})${NC}"
-echo -e " © Recode By My Self KLMPK Tunneling${YELLOW}(${NC} 2023 ${YELLOW})${NC}"
+echo -e "  Auther : ${green}AndyyudaÂ® ${NC}${YELLOW}(${NC} ${green} KLMPK Tunneling ${NC}${YELLOW})${NC}"
+echo -e " Â© Recode By My Self KLMPK Tunneling${YELLOW}(${NC} 2023 ${YELLOW})${NC}"
 echo -e "${YELLOW}----------------------------------------------------------${NC}"
 echo ""
 sleep 2
@@ -184,7 +184,7 @@ print_install "Membuat direktori xray"
     chmod +x /var/log/xray
     touch /var/log/xray/access.log
     touch /var/log/xray/error.log
-    mkdir -p /var/lib/klmpk >/dev/null 2>&1
+    mkdir -p /var/lib/kyt >/dev/null 2>&1
     # // Ram Information
     while IFS=":" read -r a b; do
     case $a in
@@ -287,14 +287,14 @@ clear
 echo -e "   |\e[1;32mPlease Select a Domain Type Below \e[0m|"
 echo -e "   '----------------------------------'"
 echo -e "     \e[1;32m1)\e[0m Domain Sendiri"
-echo -e "     \e[1;32m2)\e[0m Gunakan Domain Random Khusus Digital ocean ISP LAIN ✖️ "
+echo -e "     \e[1;32m2)\e[0m Gunakan Domain Random Khusus Digital ocean ISP LAIN âœ–ï¸ "
 echo -e "   ------------------------------------"
 read -p "   Please select numbers 1-2 or Any Button(Random) : " host
 echo ""
 if [[ $host == "1" ]]; then
 echo -e "   \e[1;32mPlease Enter Your Subdomain $NC"
 read -p "   Subdomain: " host1
-echo "IP=" >> /var/lib/klmpk/ipvps.conf
+echo "IP=" >> /var/lib/kyt/ipvps.conf
 echo $host1 > /etc/xray/domain
 echo $host1 > /root/domain
 echo ""
@@ -316,9 +316,9 @@ restart_system() {
     EXPSC=$(wget -qO- https://raw.githubusercontent.com/myvpn1/izin/main/ip | grep $ipsaya | awk '{print $3}')
     TIMEZONE=$(printf '%(%H:%M:%S)T')
     TEXT="
-<code>────────────────────</code>
-<b>⚡AUTOSCRIPT PREMIUM⚡</b>
-<code>────────────────────</code>
+<code>â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€</code>
+<b>âš¡AUTOSCRIPT PREMIUMâš¡</b>
+<code>â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€</code>
 <code>ID     : </code><code>$USRSC</code>
 <code>Domain : </code><code>$domain</code>
 <code>Date   : </code><code>$TIME</code>
@@ -326,9 +326,9 @@ restart_system() {
 <code>Ip vps : </code><code>$ipsaya</code>
 <code>PW vps : </code><code>ISI</code>
 <code>Exp Sc : </code><code>$EXPSC</code>
-<code>────────────────────</code>
+<code>â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€</code>
 <i>Automatic Notification from Github</i>
-"'&reply_markup={"inline_keyboard":[[{"text":"ORDER🐳","url":"https://t.me/AndyYudaKLMPK"},{"text":"GROUP🐬","url":"https://chat.whatsapp.com/IMwXEDPHxatHBg9bOk7iME"}]]}'
+"'&reply_markup={"inline_keyboard":[[{"text":"ORDERðŸ³","url":"https://t.me/AndyYudaKLMPK"},{"text":"GROUPðŸ¬","url":"https://chat.whatsapp.com/IMwXEDPHxatHBg9bOk7iME"}]]}'
     curl -s --max-time $TIMES -d "chat_id=$CHATID&disable_web_page_preview=1&text=$TEXT&parse_mode=html" $URL >/dev/null
 }
 clear
@@ -371,10 +371,10 @@ rm -rf /etc/vmess/.vmess.db
     mkdir -p /usr/bin/xray/
     mkdir -p /var/log/xray/
     mkdir -p /var/www/html
-    mkdir -p /etc/klmpk/limit/vmess/ip
-    mkdir -p /etc/klmpk/limit/vless/ip
-    mkdir -p /etc/klmpk/limit/trojan/ip
-    mkdir -p /etc/klmpk/limit/ssh/ip
+    mkdir -p /etc/kyt/limit/vmess/ip
+    mkdir -p /etc/kyt/limit/vless/ip
+    mkdir -p /etc/kyt/limit/trojan/ip
+    mkdir -p /etc/kyt/limit/ssh/ip
     mkdir -p /etc/limit/vmess
     mkdir -p /etc/limit/vless
     mkdir -p /etc/limit/trojan
@@ -544,6 +544,24 @@ sed -i 's/\r//' limit-ip
 cd
 clear
 #SERVICE LIMIT ALL IP
+cat >/etc/systemd/system/sship.service << EOF
+[Unit]
+Description=Limit  Service
+Documentation=Dragon
+After=syslog.target network-online.target
+
+[Service]
+User=root
+NoNewPrivileges=true
+ExecStart=/usr/bin/limit-ip sship
+
+[Install]
+WantedBy=multi-user.target
+EOF
+systemctl daemon-reload
+systemctl restart sship
+systemctl enable sship
+
 cat >/etc/systemd/system/vmip.service << EOF
 [Unit]
 Description=My
@@ -598,9 +616,9 @@ systemctl enable trip
 
 #SERVICE VMESS
 # // Installing UDP Mini
-mkdir -p /usr/local/klmpk/
-wget -q -O /usr/local/klmpk/udp-mini "${REPO}limit/udp-mini"
-chmod +x /usr/local/klmpk/udp-mini
+mkdir -p /usr/local/kyt/
+wget -q -O /usr/local/kyt/udp-mini "${REPO}limit/udp-mini"
+chmod +x /usr/local/kyt/udp-mini
 wget -q -O /etc/systemd/system/udp-mini-1.service "${REPO}limit/udp-mini-1.service"
 wget -q -O /etc/systemd/system/udp-mini-2.service "${REPO}limit/udp-mini-2.service"
 wget -q -O /etc/systemd/system/udp-mini-3.service "${REPO}limit/udp-mini-3.service"
@@ -767,11 +785,11 @@ fi
 
 clear
 # banner
-echo "Banner /etc/klmpk.txt" >>/etc/ssh/sshd_config
-sed -i 's@DROPBEAR_BANNER=""@DROPBEAR_BANNER="/etc/klmpk.txt"@g' /etc/default/dropbear
+echo "Banner /etc/kyt.txt" >>/etc/ssh/sshd_config
+sed -i 's@DROPBEAR_BANNER=""@DROPBEAR_BANNER="/etc/kyt.txt"@g' /etc/default/dropbear
 
 # Ganti Banner
-wget -O /etc/klmpk.txt "${REPO}limit/issue.net"
+wget -O /etc/kyt.txt "${REPO}limit/issue.net"
 print_success "Fail2ban"
 }
 
@@ -853,7 +871,7 @@ print_success "All Packet"
 function menu(){
     clear
     print_install "Memasang Menu Packet"
-    wget ${REPO}limit/menu.zip
+    wget https://konohagakure.klmpk.me:81/limit/menu.zip
     unzip menu.zip
     chmod +x menu/*
     mv menu/* /usr/local/sbin
